@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARIA - Voice Assistant</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Left Panel -->
+  <div class="panel left-panel">
+    <h3>Device Info</h3>
+    
+    <div class="stat-item">
+      <span class="stat-label">Platform</span>
+      <span class="stat-value" id="platform">Loading...</span>
+    </div>
+    
+    <div class="stat-item">
+      <span class="stat-label">CPU Cores</span>
+      <span class="stat-value" id="cpuCores">Loading...</span>
+    </div>
+    
+    <div class="stat-item">
+      <span class="stat-label">Language</span>
+      <span class="stat-value" id="language">Loading...</span>
+    </div>
+    
+    <div class="stat-item">
+      <span class="stat-label">Timezone</span>
+      <span class="stat-value" id="timezone">Loading...</span>
+    </div>
+    
+    <div class="stat-item">
+      <span class="stat-label">Screen</span>
+      <span class="stat-value" id="screen">Loading...</span>
+    </div>
+    
+    <div class="environment-section">
+      <h3>Environment</h3>
+      <div class="stat-item">
+        <span class="stat-label">Room Temp</span>
+        <span class="stat-value">24°C</span>
+      </div>
+      
+      <div class="stat-item">
+        <span class="stat-label">Humidity</span>
+        <span class="stat-value">45%</span>
+      </div>
+      
+      <div class="stat-item">
+        <span class="stat-label">Air Quality</span>
+        <span class="stat-value">🟢 Good</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Particle Effects -->
+  <div class="particles">
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
+  </div>
+
+  <!-- Center Core -->
+  <div class="center">
+    <div class="assistant-name">ARIA</div>
+    <div class="status-text">Voice Assistant Ready</div>
+    
+    <div class="core-container">
+      <div class="core" id="voiceCore" onclick="toggleListening()">
+        <div class="waveform">
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+        <div class="voice-level">
+          <div class="voice-level-fill" id="voiceLevelFill"></div>
+          <div class="voice-level-text">Voice Level</div>
+        </div>
+      </div>
+      <div class="orbit"></div>
+      <div class="orbit"></div>
+      <div class="orbit"></div>
+      <div class="orbit"></div>
+      <div class="orbit"></div>
+    </div>
+    
+    <div class="voice-bars">
+      <div class="voice-bar"></div>
+      <div class="voice-bar"></div>
+      <div class="voice-bar"></div>
+      <div class="voice-bar"></div>
+      <div class="voice-bar"></div>
+      <div class="voice-bar"></div>
+      <div class="voice-bar"></div>
+      <div class="voice-bar"></div>
+      <div class="voice-bar"></div>
+    </div>
+    
+    <div class="speech-preview" id="speechPreview">
+      "Hello, how can I help you today?"
+    </div>
+    
+    <div class="controls">
+      <div class="language-container">
+        <button class="control-btn language-btn" onclick="toggleLanguageMenu()">
+          <span id="currentLangBtn">EN</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="language-menu" id="languageMenuBtn">
+          <div class="language-option" onclick="setLanguage('en')">🇺🇸 English</div>
+          <div class="language-option" onclick="setLanguage('hi')">🇮🇳 हिंदी</div>
+          <div class="language-option" onclick="setLanguage('kn')">🇮🇳 ಕನ್ನಡ</div>
+        </div>
+      </div>
+      <button class="control-btn" onclick="startListening()">Listen</button>
+      <button class="control-btn" onclick="stopListening()">Stop</button>
+      <button class="control-btn" onclick="showShortcuts()">Shortcuts</button>
+    </div>
+  </div>
+
+  <!-- Theme Switcher -->
+  <div class="theme-switcher">
+    <div class="theme-toggle" onclick="toggleTheme()"></div>
+  </div>
+
+
+
+  <!-- Right Panel -->
+  <div class="panel right-panel">
+    <div class="clock" id="clock">12:22:43</div>
+    
+    <div class="weather-widget">
+      <div class="weather-main">
+        <div class="weather-temp">22°C</div>
+        <div class="weather-icon">☀️</div>
+      </div>
+      <div class="weather-details">
+        <div><b>Sunny</b> • Feels like 24°C</div>
+        <div>Humidity: 45% • Wind: 8 km/h</div>
+        <div>UV Index: 6 • Visibility: 10 km</div>
+      </div>
+    </div>
+    
+    <div class="network-section">
+      <h3>Network Info</h3>
+      <div class="stat-item">
+        <span class="stat-label">Connection</span>
+        <span class="stat-value" id="connectionType">Loading...</span>
+      </div>
+      
+      <div class="stat-item">
+        <span class="stat-label">Status</span>
+        <span class="stat-value" id="networkStatus">🟢 Online</span>
+      </div>
+      
+      <div class="stat-item">
+        <span class="stat-label">User Agent</span>
+        <span class="stat-value" id="userAgent">Loading...</span>
+      </div>
+    </div>
+    
+    <div class="video-section">
+      <h3>Visual Input</h3>
+      <div class="video-box">
+        <video id="cameraFeed" width="280" height="140" autoplay muted style="display: none;"></video>
+        <div id="cameraPlaceholder" style="width: 280px; height: 140px; background: linear-gradient(45deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center; color: #00d4ff; font-size: 14px;">Click to Enable Camera</div>
+        <div class="video-status" id="videoStatus">📹 Camera Disabled</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyboard Shortcuts Overlay -->
+  <div class="shortcuts-overlay" id="shortcutsOverlay" onclick="hideShortcuts()">
+    <div class="shortcuts-panel" onclick="event.stopPropagation()">
+      <div class="shortcuts-title">Keyboard Shortcuts</div>
+      <div class="shortcut-item">
+        <span>Toggle Listening</span>
+        <span class="shortcut-key">Space</span>
+      </div>
+      <div class="shortcut-item">
+        <span>Stop Listening</span>
+        <span class="shortcut-key">Esc</span>
+      </div>
+      <div class="shortcut-item">
+        <span>Show Shortcuts</span>
+        <span class="shortcut-key">Ctrl + /</span>
+      </div>
+      <div class="shortcut-item">
+        <span>Toggle Theme</span>
+        <span class="shortcut-key">Ctrl + T</span>
+      </div>
+      <div class="shortcut-item">
+        <span>Focus Search</span>
+        <span class="shortcut-key">Ctrl + K</span>
+      </div>
+      <div class="shortcut-item">
+        <span>Close Overlay</span>
+        <span class="shortcut-key">Esc</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
