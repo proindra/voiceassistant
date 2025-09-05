@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JARVIS - Voice Assistant</title>
   <link rel="stylesheet" href="styles.css">
-
+  <script>
+    if(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 'ontouchstart' in window) {
+      document.documentElement.style.setProperty('--mobile-detected', 'block');
+    }
+  </script>
 </head>
 <body>
   <!-- Mobile Block Message -->
