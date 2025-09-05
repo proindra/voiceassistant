@@ -1593,120 +1593,28 @@ body.light-theme .orbit::before {
   margin-bottom: 25px;
 }
 
-/* Responsive Design */
-@media (max-width: 1400px) {
-  .panel { width: 280px; padding: 20px; }
-  .orbit:nth-child(4), .orbit:nth-child(5) { display: none; }
-}
+/* Responsive Design - Mobile First Approach */
 
-@media (max-width: 1200px) {
-  .panel { width: 250px; padding: 18px; }
-  .assistant-name { font-size: 40px; letter-spacing: 6px; }
-  .core { width: 120px; height: 120px; }
-  .orbit:nth-child(3) { display: none; }
-  .controls { gap: 15px; }
-  .control-btn { padding: 12px 24px; font-size: 13px; }
-}
-
-/* Fix for desktop mode on mobile devices */
-@media (max-width: 1000px) {
-  .panel { width: 200px; padding: 15px; font-size: 12px; }
-  .panel h3 { font-size: 14px; margin-bottom: 15px; }
-  .stat-item { padding: 10px 12px; margin: 8px 0; }
-  .stat-label, .stat-value { font-size: 11px; }
-  .assistant-name { font-size: 32px; letter-spacing: 4px; }
-  .core { width: 100px; height: 100px; }
-  .orbit:nth-child(2), .orbit:nth-child(3) { display: none; }
-  .controls { gap: 10px; flex-wrap: wrap; }
-  .control-btn { padding: 10px 18px; font-size: 11px; }
-  .weather-widget { padding: 12px; }
-  .weather-temp { font-size: 20px; }
-  .clock { font-size: 22px; }
-  .video-box { width: 180px; }
-  #cameraPlaceholder { width: 180px; height: 100px; font-size: 12px; }
-}
-
-@media (max-width: 850px) {
-  .panel { width: 160px; padding: 12px; }
-  .assistant-name { font-size: 28px; letter-spacing: 2px; }
-  .status-text { font-size: 14px; }
-  .core { width: 80px; height: 80px; }
-  .core::before { font-size: 24px; }
-  .orbit { display: none; }
-  .controls { justify-content: center; }
-  .control-btn { padding: 8px 14px; font-size: 10px; min-width: 60px; }
-  .weather-temp { font-size: 18px; }
-  .clock { font-size: 20px; }
-  .video-box { width: 140px; }
-  #cameraPlaceholder { width: 140px; height: 80px; }
-}
-
-/* Tablet Portrait */
-@media (max-width: 992px) {
-  .panel { width: 220px; padding: 15px; }
-  .assistant-name { font-size: 32px; letter-spacing: 4px; }
-  .status-text { font-size: 16px; }
-  .core { width: 100px; height: 100px; }
-  .weather-widget { padding: 15px; }
-  .clock { font-size: 24px; }
-}
-
-/* Mobile Landscape - only for larger mobile screens */
-@media (min-width: 751px) and (max-width: 900px) and (orientation: landscape) {
+/* Base Mobile Styles (320px and up) */
+@media (max-width: 767px) {
   body { 
-    flex-direction: row;
-    height: 100vh;
-    overflow: hidden;
-  }
-  
-  .panel { 
-    width: 180px; 
-    padding: 10px;
-    font-size: 11px;
-  }
-  
-  .panel h3 { font-size: 13px; margin-bottom: 12px; }
-  .stat-item { padding: 6px 10px; margin: 6px 0; }
-  .stat-label, .stat-value { font-size: 10px; }
-  
-  .center { padding: 10px; }
-  .assistant-name { font-size: 20px; letter-spacing: 1px; margin-bottom: 10px; }
-  .status-text { font-size: 12px; margin-bottom: 15px; }
-  .core { width: 70px; height: 70px; }
-  .core::before { font-size: 20px; }
-  
-  .controls { gap: 8px; margin-top: 20px; flex-wrap: wrap; }
-  .control-btn { padding: 6px 12px; font-size: 9px; }
-  
-  .weather-widget { padding: 8px; margin-bottom: 12px; }
-  .weather-temp { font-size: 16px; }
-  .weather-details { font-size: 9px; }
-  .clock { font-size: 18px; margin-bottom: 12px; }
-  
-  .video-box { width: 160px; }
-  .video-box img, #cameraPlaceholder { height: 80px; width: 160px; }
-  
-  .orbit { display: none; }
-  .particles { display: none; }
-}
-
-/* Force mobile layout for very small screens regardless of orientation */
-@media (max-width: 750px) {
-  body { 
-    flex-direction: column !important;
-    height: auto !important;
+    flex-direction: column;
+    height: auto;
     min-height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
+    padding: 0;
   }
   
   .panel { 
-    width: 100% !important; 
+    width: 100%;
     padding: 15px;
-    position: relative;
     border-radius: 0;
-    border-left: none !important;
-    border-right: none !important;
+    border-left: none;
+    border-right: none;
+    margin: 0;
+    box-shadow: none;
+    backdrop-filter: blur(15px);
   }
   
   .left-panel {
@@ -1723,252 +1631,458 @@ body.light-theme .orbit::before {
   .center { 
     order: 1;
     padding: 20px 15px;
-    min-height: 50vh;
-  }
-  
-  .assistant-name { font-size: 24px; letter-spacing: 3px; }
-  .core { width: 90px; height: 90px; }
-  .orbit, .particles { display: none; }
-  .controls { flex-wrap: wrap; gap: 8px; justify-content: center; }
-  .control-btn { padding: 10px 16px; font-size: 10px; }
-}
-
-/* Mobile Portrait */
-@media (max-width: 768px) and (orientation: portrait) {
-  body { 
-    flex-direction: column;
-    height: auto;
-    min-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-  
-  .panel { 
-    width: 100%; 
-    padding: 20px;
-    position: relative;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-  }
-  
-  .left-panel {
-    order: 2;
-    border-top: 1px solid rgba(0, 212, 255, 0.3);
-    border-bottom: 1px solid rgba(0, 212, 255, 0.3);
-  }
-  
-  .right-panel {
-    order: 3;
-    border-top: 1px solid rgba(0, 212, 255, 0.3);
-  }
-  
-  .center { 
-    order: 1;
-    padding: 30px 20px;
     min-height: 60vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
   }
   
   .assistant-name { 
-    font-size: 36px; 
-    letter-spacing: 6px;
-    margin-bottom: 20px;
+    font-size: 28px; 
+    letter-spacing: 3px;
+    margin-bottom: 15px;
     text-align: center;
   }
   
   .status-text { 
-    font-size: 16px; 
-    margin-bottom: 30px;
+    font-size: 14px; 
+    margin-bottom: 25px;
     text-align: center;
   }
   
   .core-container {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    position: relative;
   }
   
   .core { 
-    width: 120px; 
-    height: 120px;
+    width: 100px; 
+    height: 100px;
     touch-action: manipulation;
+    margin: 0 auto;
   }
   
-  .core::before { font-size: 32px; }
-  
-  .voice-level {
-    width: 280px;
-    bottom: -30px;
-  }
-  
-  .voice-bars {
-    bottom: -50px;
-  }
-  
-  .speech-preview {
-    width: 90vw;
-    max-width: 350px;
-    bottom: -60px;
-    font-size: 12px;
-    padding: 8px;
+  .core::before { 
+    font-size: 28px;
   }
   
   .voice-level {
     width: 200px;
-    bottom: -25px;
+    bottom: -20px;
   }
   
   .voice-bars {
-    bottom: -40px;
+    bottom: -35px;
+  }
+  
+  .speech-preview {
+    width: 90vw;
+    max-width: 300px;
+    bottom: -50px;
+    font-size: 11px;
+    padding: 8px;
+    min-height: 30px;
   }
   
   .controls { 
     flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 40px;
+    gap: 10px;
+    margin-top: 30px;
     justify-content: center;
-  }
-  
-  .speech-input-container {
-    margin-top: 20px;
-  }
-  
-  #speechInput {
-    width: 90vw;
-    max-width: 350px;
-    height: 80px;
-    font-size: 12px;
+    width: 100%;
   }
   
   .control-btn { 
-    padding: 14px 28px;
-    font-size: 12px;
-    min-width: 100px;
+    padding: 12px 20px;
+    font-size: 11px;
+    min-width: 80px;
     touch-action: manipulation;
+    flex: 1;
+    max-width: 120px;
   }
   
   .language-container {
     order: -1;
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
   
   .language-btn {
     width: 100%;
     justify-content: center;
+    padding: 12px 20px;
   }
   
   .language-menu {
     left: 50%;
     transform: translateX(-50%) translateY(-10px);
-    width: 200px;
+    width: 180px;
+    max-width: 90vw;
   }
   
   .language-menu.show {
     transform: translateX(-50%) translateY(0);
   }
   
-  /* Mobile Panel Optimizations */
+  .speech-input-container {
+    margin-top: 15px;
+    width: 100%;
+  }
+  
+  #speechInput {
+    width: 90vw;
+    max-width: 300px;
+    height: 70px;
+    font-size: 11px;
+    padding: 10px;
+  }
+  
+  .clear-btn {
+    padding: 6px 15px;
+    font-size: 10px;
+  }
+  
+  /* Panel optimizations for mobile */
+  .panel h3 {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
   .stat-item {
-    padding: 16px;
-    margin: 10px 0;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 10px;
+  }
+  
+  .stat-label { 
+    font-size: 11px;
+  }
+  
+  .stat-value { 
+    font-size: 12px;
+  }
+  
+  .weather-widget {
+    padding: 15px;
+    margin-bottom: 15px;
     border-radius: 15px;
   }
   
-  .stat-label { font-size: 13px; }
-  .stat-value { font-size: 15px; }
-  
-  .weather-widget {
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 20px;
+  .weather-temp { 
+    font-size: 22px;
   }
   
-  .weather-temp { font-size: 28px; }
-  .weather-details { font-size: 12px; line-height: 1.6; }
+  .weather-details { 
+    font-size: 10px;
+    line-height: 1.4;
+  }
   
   .clock { 
-    font-size: 32px; 
-    margin-bottom: 20px;
+    font-size: 24px; 
+    margin-bottom: 15px;
     text-align: center;
   }
   
   .video-box {
     width: 100%;
-    max-width: 300px;
+    max-width: 250px;
     margin: 0 auto;
   }
   
   .video-box img, #cameraPlaceholder { 
-    height: 160px;
+    height: 120px;
     width: 100%;
+    font-size: 11px;
   }
   
-  /* Hide complex animations on mobile for performance */
-  .orbit { display: none; }
-  .particles { display: none; }
+  .video-status {
+    font-size: 10px;
+    padding: 6px;
+  }
   
-  /* Theme switcher mobile positioning */
+  /* Hide performance-heavy elements on mobile */
+  .orbit, .particles, .holo-overlay, .scan-lines { 
+    display: none;
+  }
+  
+  .holographic-grid {
+    opacity: 0.3;
+  }
+  
+  /* Theme switcher positioning */
   .theme-switcher {
     top: 10px;
     right: 10px;
     z-index: 1000;
   }
   
-  /* Shortcuts overlay mobile optimization */
+  .theme-toggle {
+    width: 40px;
+    height: 20px;
+  }
+  
+  .theme-toggle::before {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+  }
+  
+  body.light-theme .theme-toggle::before {
+    transform: translateX(20px);
+  }
+  
+  /* Shortcuts overlay optimization */
   .shortcuts-panel {
     width: 95%;
-    max-width: none;
-    padding: 25px 20px;
+    max-width: 350px;
+    padding: 20px 15px;
     margin: 10px;
   }
   
-  .shortcuts-title { font-size: 18px; }
-  .shortcut-item { padding: 12px; }
+  .shortcuts-title { 
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  .shortcut-item { 
+    padding: 10px;
+    margin: 8px 0;
+  }
+  
+  .shortcut-key {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
 }
 
-/* Small Mobile Devices */
-@media (max-width: 480px) {
-  .center { padding: 20px 15px; }
-  
+/* Larger Mobile Devices (480px and up) */
+@media (min-width: 480px) and (max-width: 767px) {
   .assistant-name { 
-    font-size: 28px; 
+    font-size: 32px; 
     letter-spacing: 4px;
   }
   
-  .status-text { font-size: 14px; }
+  .status-text { 
+    font-size: 15px;
+  }
   
   .core { 
-    width: 100px; 
-    height: 100px;
+    width: 110px; 
+    height: 110px;
   }
   
-  .core::before { font-size: 28px; }
+  .core::before { 
+    font-size: 30px;
+  }
   
-  .controls { gap: 10px; }
   .control-btn { 
-    padding: 12px 20px;
-    font-size: 11px;
-    min-width: 80px;
+    padding: 14px 24px;
+    font-size: 12px;
+    min-width: 90px;
   }
   
-  .panel { padding: 15px; }
-  .panel h3 { font-size: 14px; }
+  .weather-temp { 
+    font-size: 26px;
+  }
   
-  .weather-temp { font-size: 24px; }
-  .clock { font-size: 28px; }
+  .clock { 
+    font-size: 28px;
+  }
+  
+  #speechInput {
+    height: 80px;
+    font-size: 12px;
+  }
   
   .speech-preview {
-    width: 95vw;
     font-size: 12px;
-    padding: 10px;
   }
-  
-  .voice-level { width: 250px; }
 }
 
-/* Touch Interactions */
+/* Tablet Portrait (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  body {
+    flex-direction: row;
+  }
+  
+  .panel { 
+    width: 220px; 
+    padding: 18px;
+    border-radius: 15px;
+    border-left: 1px solid rgba(0, 212, 255, 0.3);
+    border-right: 1px solid rgba(0, 212, 255, 0.3);
+  }
+  
+  .left-panel {
+    order: 1;
+    border-right: 1px solid rgba(0, 212, 255, 0.3);
+    border-top: none;
+    border-bottom: none;
+  }
+  
+  .right-panel {
+    order: 3;
+    border-left: 1px solid rgba(0, 212, 255, 0.3);
+    border-top: none;
+  }
+  
+  .center { 
+    order: 2;
+    padding: 25px;
+    min-height: auto;
+  }
+  
+  .assistant-name { 
+    font-size: 36px; 
+    letter-spacing: 5px;
+  }
+  
+  .core { 
+    width: 120px; 
+    height: 120px;
+  }
+  
+  .orbit:nth-child(n+3) { 
+    display: none;
+  }
+  
+  .controls { 
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .control-btn { 
+    padding: 12px 20px;
+    font-size: 12px;
+  }
+}
+
+/* Small Desktop (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .panel { 
+    width: 250px; 
+    padding: 20px;
+  }
+  
+  .assistant-name { 
+    font-size: 42px; 
+    letter-spacing: 6px;
+  }
+  
+  .core { 
+    width: 140px; 
+    height: 140px;
+  }
+  
+  .orbit:nth-child(n+4) { 
+    display: none;
+  }
+  
+  .controls { 
+    gap: 15px;
+  }
+  
+  .control-btn { 
+    padding: 14px 26px;
+    font-size: 13px;
+  }
+}
+
+/* Medium Desktop (1200px - 1399px) */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .panel { 
+    width: 300px; 
+    padding: 22px;
+  }
+  
+  .assistant-name { 
+    font-size: 48px; 
+    letter-spacing: 8px;
+  }
+  
+  .orbit:nth-child(5) { 
+    display: none;
+  }
+}
+
+/* Large Desktop (1400px and up) */
+@media (min-width: 1400px) {
+  .panel { 
+    width: 340px; 
+    padding: 25px;
+  }
+  
+  .assistant-name { 
+    font-size: 52px; 
+    letter-spacing: 10px;
+  }
+}
+
+/* Landscape Mobile Optimization */
+@media (max-width: 767px) and (orientation: landscape) and (max-height: 500px) {
+  .center {
+    padding: 10px 15px;
+    min-height: auto;
+  }
+  
+  .assistant-name { 
+    font-size: 24px; 
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+  
+  .status-text { 
+    font-size: 12px; 
+    margin-bottom: 15px;
+  }
+  
+  .core { 
+    width: 80px; 
+    height: 80px;
+  }
+  
+  .core::before { 
+    font-size: 24px;
+  }
+  
+  .controls { 
+    margin-top: 15px;
+    gap: 8px;
+  }
+  
+  .control-btn { 
+    padding: 8px 16px;
+    font-size: 10px;
+    min-width: 70px;
+  }
+  
+  .speech-input-container {
+    margin-top: 10px;
+  }
+  
+  #speechInput {
+    height: 50px;
+    font-size: 10px;
+  }
+  
+  .voice-level {
+    width: 150px;
+    bottom: -15px;
+  }
+  
+  .voice-bars {
+    bottom: -25px;
+  }
+  
+  .speech-preview {
+    bottom: -35px;
+    font-size: 10px;
+    padding: 6px;
+  }
+}
+
+/* Touch Interactions and Mobile Optimizations */
 @media (hover: none) and (pointer: coarse) {
   .control-btn:hover {
     transform: none;
@@ -1977,16 +2091,17 @@ body.light-theme .orbit::before {
   
   .control-btn:active {
     transform: scale(0.95);
-    background: rgba(0, 212, 255, 0.2);
+    background: rgba(0, 212, 255, 0.25);
+    transition: all 0.1s ease;
   }
   
   .core:hover {
     transform: none;
-    animation-duration: 3s;
   }
   
   .core:active {
     transform: scale(0.95);
+    transition: transform 0.1s ease;
   }
   
   .stat-item:hover {
@@ -1995,6 +2110,7 @@ body.light-theme .orbit::before {
   
   .stat-item:active {
     background: rgba(0, 212, 255, 0.15);
+    transform: scale(0.98);
   }
   
   .language-option:hover {
@@ -2003,6 +2119,89 @@ body.light-theme .orbit::before {
   
   .language-option:active {
     background: rgba(0, 212, 255, 0.2);
+    transform: scale(0.98);
+  }
+  
+  .theme-toggle:active {
+    transform: scale(0.9);
+  }
+  
+  .control-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .theme-toggle {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .language-option {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .control-btn, .core, .theme-toggle, .language-option {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@media (max-width: 767px) {
+  * {
+    animation-duration: 0.5s !important;
+  }
+  
+  .core-inner {
+    animation-duration: 1s !important;
+  }
+  
+  body::before {
+    display: none;
+  }
+  
+  .holographic-grid {
+    background-size: 25px 25px;
+    opacity: 0.2;
+  }
+  
+  .panel::before, .panel::after {
+    display: none;
+  }
+  
+  .stat-item::before {
+    display: none;
+  }
+  
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+  
+  #speechInput {
+    font-size: 16px !important;
+  }
+}
+
+@supports (padding: max(0px)) {
+  @media (max-width: 767px) {
+    body {
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+    
+    .center {
+      padding-top: max(20px, env(safe-area-inset-top));
+      padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+    
+    .theme-switcher {
+      top: max(10px, env(safe-area-inset-top));
+      right: max(10px, env(safe-area-inset-right));
+    }
   }
 }
 
