@@ -26,6 +26,16 @@ body {
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Hide scrollbars */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Light Theme - Black Gold */
 body.light-theme {
   background: 
@@ -179,6 +189,12 @@ body::before {
     inset 0 1px 0 rgba(0, 255, 255, 0.2),
     inset 0 0 50px rgba(0, 255, 255, 0.05);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.panel::-webkit-scrollbar {
+  display: none;
 }
 
 .left-panel {
@@ -786,16 +802,7 @@ body.light-theme .core:hover {
     inset 0 0 40px rgba(255, 215, 0, 0.2);
 }
 
-.core::before {
-  content: '🎤';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 40px;
-  filter: drop-shadow(0 0 10px #fff);
-  z-index: 2;
-}
+
 
 /* Voice Waveform */
 .waveform {
@@ -811,7 +818,7 @@ body.light-theme .core:hover {
 
 .wave-bar {
   width: 3px;
-  background: linear-gradient(to top, #00d4ff, #00ffff);
+  background: linear-gradient(to top, #ff0040, #ff4080);
   border-radius: 2px;
   animation: wave 1.5s ease-in-out infinite;
   opacity: 0.8;
@@ -859,7 +866,7 @@ body.light-theme .core:hover {
 
 .voice-level-fill {
   height: 100%;
-  background: linear-gradient(90deg, #00d4ff, #00ffff);
+  background: linear-gradient(90deg, #ff0040, #ff4080);
   border-radius: 3px;
   width: 0%;
   transition: width 0.1s ease;
@@ -893,7 +900,7 @@ body.light-theme .core:hover {
 
 .voice-bar {
   width: 6px;
-  background: linear-gradient(to top, #00d4ff, #00ffff);
+  background: linear-gradient(to top, #ff0040, #ff4080);
   border-radius: 3px;
   transition: height 0.1s ease;
 }
@@ -1668,4 +1675,37 @@ html[style*="--mobile-detected: block"] .mobile-block {
     margin-bottom: 15px;
     color: #7dd3fc;
   }
+}
+
+/* Footer */
+.footer {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(0, 255, 255, 0.7);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 100;
+  text-align: center;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+}
+
+.footer:hover {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+  text-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+}
+
+body.light-theme .footer {
+  color: rgba(255, 221, 0, 0.8);
+  text-shadow: 0 0 8px rgba(255, 221, 0, 0.4);
+}
+
+body.light-theme .footer:hover {
+  text-shadow: 0 0 12px rgba(255, 221, 0, 0.6);
 }
