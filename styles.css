@@ -75,11 +75,12 @@ body::before {
   right: 0;
   bottom: 0;
   background-image: 
-    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(0, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 50px 50px;
   pointer-events: none;
   animation: gridShift 20s linear infinite;
+  z-index: 3;
 }
 
 /* Scanning Lines */
@@ -91,6 +92,7 @@ body::before {
   bottom: 0;
   pointer-events: none;
   overflow: hidden;
+  z-index: 3;
 }
 
 .scan-line {
@@ -106,8 +108,9 @@ body::before {
 .holo-overlay {
   position: absolute;
   pointer-events: none;
-  border: 1px solid rgba(0, 255, 255, 0.2);
-  background: rgba(0, 255, 255, 0.02);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  background: rgba(0, 255, 255, 0.04);
+  z-index: 3;
 }
 
 .holo-1 {
@@ -177,7 +180,7 @@ body::before {
   width: 340px;
   padding: 25px;
   background: 
-    linear-gradient(135deg, rgba(0, 20, 40, 0.9) 0%, rgba(0, 30, 60, 0.8) 50%, rgba(0, 15, 35, 0.9) 100%);
+    linear-gradient(135deg, rgba(0, 20, 40, 0.7) 0%, rgba(0, 30, 60, 0.6) 50%, rgba(0, 15, 35, 0.7) 100%);
   backdrop-filter: blur(25px) saturate(200%);
   border: 2px solid rgba(0, 255, 255, 0.4);
   border-radius: 15px;
@@ -191,6 +194,7 @@ body::before {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   scrollbar-width: none;
   -ms-overflow-style: none;
+  z-index: 2;
 }
 
 .panel::-webkit-scrollbar {
@@ -1409,6 +1413,7 @@ body.light-theme .video-status {
   height: 100%;
   pointer-events: none;
   overflow: hidden;
+  z-index: 3;
 }
 
 .particle {
