@@ -1,14 +1,11 @@
 // Clock functionality
-let clockInterval;
 function updateClock() {
   const now = new Date();
   const timeString = now.toLocaleTimeString('en-US', { hour12: false });
   document.getElementById('clock').textContent = timeString;
 }
 
-if (!isMobile()) {
-  clockInterval = setInterval(updateClock, 1000);
-}
+setInterval(updateClock, 1000);
 updateClock();
 
 // Voice assistant variables
@@ -224,20 +221,13 @@ function stopListening() {
 }
 
 function startVoiceLevel() {
-  if (isMobile()) {
-    // No animations on mobile - just update preview occasionally
-    voiceLevelInterval = setInterval(() => {
-      if (Math.random() > 0.9) updateSpeechPreview();
-    }, 2000);
-  } else {
-    const voiceFill = document.getElementById('voiceLevelFill');
-    voiceLevelInterval = setInterval(() => {
-      const level = Math.random() * 100;
-      voiceFill.style.width = level + '%';
-      animateVoiceBars();
-      if (Math.random() > 0.7) updateSpeechPreview();
-    }, 150);
-  }
+  const voiceFill = document.getElementById('voiceLevelFill');
+  voiceLevelInterval = setInterval(() => {
+    const level = Math.random() * 100;
+    voiceFill.style.width = level + '%';
+    animateVoiceBars();
+    if (Math.random() > 0.7) updateSpeechPreview();
+  }, 150);
 }
 
 function stopVoiceLevel() {
@@ -730,141 +720,31 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// Mobile detection
-function isMobile() {
-  return window.innerWidth <= 767 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
 
-// Optimize for mobile performance
-function optimizeForMobile() {
-  if (isMobile()) {
-    // Minimal updates on mobile
-    updateBrowserInfo();
-    setTimeout(() => updateBrowserInfo(), 60000); // Only once per minute
-    
-    // Disable ALL animations and intervals
-    stopAutoThemeSwitch();
-    clearInterval(voiceLevelInterval);
-    
-    // Add minimal touch events
-    addTouchEventListeners();
-    
-    // Disable clock updates to save CPU
-    clearInterval(clockInterval);
-    
-    document.body.classList.add('mobile-optimized');
-  } else {
-    setInterval(updateBrowserInfo, 5000);
-    startAutoThemeSwitch();
-  }
-}
-
-// Add touch event listeners for better mobile interaction
-function addTouchEventListeners() {
-  const core = document.getElementById('voiceCore');
-  const controlBtns = document.querySelectorAll('.control-btn');
-  const themeToggle = document.querySelector('.theme-toggle');
-  
-  // Add touch feedback for core
-  if (core) {
-    core.addEventListener('touchstart', function() {
-      this.style.transform = 'scale(0.95)';
-    });
-    
-    core.addEventListener('touchend', function() {
-      this.style.transform = '';
-    });
-  }
-  
-  // Add touch feedback for buttons
-  controlBtns.forEach(btn => {
-    btn.addEventListener('touchstart', function() {
-      this.style.transform = 'scale(0.95)';
-    });
-    
-    btn.addEventListener('touchend', function() {
-      this.style.transform = '';
-    });
-  });
-  
-  // Add touch feedback for theme toggle
-  if (themeToggle) {
-    themeToggle.addEventListener('touchstart', function() {
-      this.style.transform = 'scale(0.9)';
-    });
-    
-    themeToggle.addEventListener('touchend', function() {
-      this.style.transform = '';
-    });
-  }
-}
-
-// Handle orientation changes
-function handleOrientationChange() {
-  // Force layout recalculation after orientation change
-  setTimeout(() => {
-    window.dispatchEvent(new Event('resize'));
-  }, 100);
-}
-
-// Optimize speech recognition for mobile
-function optimizeSpeechRecognitionForMobile() {
-  if (isMobile() && recognition) {
-    // Shorter timeout for mobile to save battery
-    recognition.continuous = false;
-    recognition.interimResults = false; // Reduce processing on mobile
-  }
-}
 
 // Initialize application
 function init() {
-  // Detect mobile and optimize accordingly
-  optimizeForMobile();
+  // Start live monitoring
+  updateBrowserInfo();
+  setInterval(updateBrowserInfo, 5000);
   
   // Listen for network changes
   window.addEventListener('online', updateNetworkStatus);
   window.addEventListener('offline', updateNetworkStatus);
   
-  // Listen for orientation changes on mobile
-  if (isMobile()) {
-    window.addEventListener('orientationchange', handleOrientationChange);
-    window.addEventListener('resize', handleOrientationChange);
-  }
-  
   // Camera click handlers
-  const cameraPlaceholder = document.getElementById('cameraPlaceholder');
-  const cameraFeed = document.getElementById('cameraFeed');
-  
-  if (cameraPlaceholder) {
-    cameraPlaceholder.addEventListener('click', enableCamera);
-    // Add touch support
-    cameraPlaceholder.addEventListener('touchend', enableCamera);
-  }
-  
-  if (cameraFeed) {
-    cameraFeed.addEventListener('click', disableCamera);
-    cameraFeed.addEventListener('touchend', disableCamera);
-  }
+  document.getElementById('cameraPlaceholder').addEventListener('click', enableCamera);
+  document.getElementById('cameraFeed').addEventListener('click', disableCamera);
   
   // Initialize speech recognition
   initSpeechRecognition();
-  optimizeSpeechRecognitionForMobile();
   
   // Initialize language
   updateLanguageDisplay();
   updateUILanguage();
   
-  // Prevent zoom on double tap for iOS
-  if (isMobile()) {
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', function (event) {
-      const now = (new Date()).getTime();
-      if (now - lastTouchEnd <= 300) {
-        event.preventDefault();
-      }
-      lastTouchEnd = now;
-    }, false);
-  }
+  // Start automatic theme switching
+  startAutoThemeSwitch();
 }
 
 // Start the application when DOM is loaded
