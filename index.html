@@ -245,7 +245,8 @@
       <div class="panel-controls">
         <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme"></div>
         <div class="fullscreen-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">⛶</div>
-        <button class="control-btn audio-btn" onclick="toggleAudio()" title="Toggle JARVIS Audio" style="padding: 5px 8px; font-size: 12px;" id="audioBtn">🔊</button>
+        <button class="control-btn intro-btn" onclick="showIntro()" title="About JARVIS" style="padding: 8px 12px; font-size: 14px;">Intro</button>
+        <button class="control-btn sound-btn" onclick="togglePerfectAudio()" title="Play Perfect Audio" style="padding: 8px 12px; font-size: 14px;" id="soundBtn">🔊</button>
       </div>
     </div>
   </div>
@@ -286,6 +287,10 @@
   <!-- Audio -->
   <audio id="jarvisAudio" preload="auto" autoplay>
     <source src="audios/jarvisaudio.mp3" type="audio/mpeg">
+  </audio>
+  
+  <audio id="perfectAudio" preload="auto">
+    <source src="audios/perfect.mp3" type="audio/mpeg">
   </audio>
   
 

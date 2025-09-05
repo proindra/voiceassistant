@@ -840,10 +840,38 @@ function playJarvisAudio() {
   }
 }
 
-// Toggle audio play/stop
-function toggleAudio() {
+// Show JARVIS introduction
+function showIntro() {
+  // Play JARVIS audio
   const audio = document.getElementById('jarvisAudio');
-  const btn = document.getElementById('audioBtn');
+  if (audio) {
+    audio.currentTime = 0;
+    audio.play();
+  }
+  
+  const intro = document.createElement('div');
+  intro.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9); z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    font-family: Orbitron, monospace; color: #00d4ff;
+  `;
+  intro.innerHTML = `
+    <div style="background: linear-gradient(135deg, #001122, #000510); padding: 30px; border-radius: 15px; max-width: 500px; text-align: center; border: 2px solid #00d4ff;">
+      <h2 style="color: #00ffff; margin-bottom: 20px;">🤖 JARVIS</h2>
+      <p style="margin: 15px 0; line-height: 1.6;">Just A Rather Very Intelligent System</p>
+      <p style="margin: 15px 0; line-height: 1.6;">Advanced AI Voice Assistant with multi-language support, real-time speech recognition, and holographic interface.</p>
+      <p style="margin: 15px 0; line-height: 1.6;"><strong>Features:</strong><br>• Voice Recognition<br>• Multi-language Support<br>• Real-time Device Monitoring<br>• Holographic UI</p>
+      <button onclick="this.parentElement.parentElement.remove()" style="background: #00d4ff; color: #000; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 20px;">Close</button>
+    </div>
+  `;
+  document.body.appendChild(intro);
+}
+
+// Toggle perfect audio play/stop
+function togglePerfectAudio() {
+  const audio = document.getElementById('perfectAudio');
+  const btn = document.getElementById('soundBtn');
   
   if (audio.paused) {
     audio.play();
