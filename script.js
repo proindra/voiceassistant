@@ -222,12 +222,21 @@ function stopListening() {
 
 function startVoiceLevel() {
   const voiceFill = document.getElementById('voiceLevelFill');
-  voiceLevelInterval = setInterval(() => {
-    const level = Math.random() * 100;
-    voiceFill.style.width = level + '%';
-    animateVoiceBars();
-    if (Math.random() > 0.7) updateSpeechPreview();
-  }, 150);
+  if (isMobile()) {
+    // Simplified animation for mobile
+    voiceLevelInterval = setInterval(() => {
+      const level = Math.random() * 100;
+      voiceFill.style.width = level + '%';
+      if (Math.random() > 0.8) updateSpeechPreview();
+    }, 500); // Slower update rate
+  } else {
+    voiceLevelInterval = setInterval(() => {
+      const level = Math.random() * 100;
+      voiceFill.style.width = level + '%';
+      animateVoiceBars();
+      if (Math.random() > 0.7) updateSpeechPreview();
+    }, 150);
+  }
 }
 
 function stopVoiceLevel() {
@@ -729,13 +738,16 @@ function isMobile() {
 function optimizeForMobile() {
   if (isMobile()) {
     // Reduce update frequency on mobile
-    setInterval(updateBrowserInfo, 10000); // 10 seconds instead of 5
+    setInterval(updateBrowserInfo, 30000); // 30 seconds for better performance
     
     // Disable auto theme switching on mobile to save battery
     stopAutoThemeSwitch();
     
     // Add touch event listeners
     addTouchEventListeners();
+    
+    // Disable voice level animation on mobile
+    clearInterval(voiceLevelInterval);
     
     // Optimize animations
     document.body.classList.add('mobile-optimized');

@@ -1801,13 +1801,70 @@ body.light-theme .orbit::before {
     padding: 6px;
   }
   
-  /* Hide performance-heavy elements on mobile */
-  .orbit, .particles, .holo-overlay, .scan-lines { 
+  /* Remove ALL heavy elements on mobile */
+  .orbit, .particles, .holo-overlay, .scan-lines, .holographic-grid {
+    display: none !important;
+  }
+  
+  .core-rings, .data-stream, .holo-indicator, .energy-field {
+    display: none !important;
+  }
+  
+  .waveform {
+    display: none !important;
+  }
+  
+  body::before {
+    display: none !important;
+  }
+  
+  /* Simplify core to basic circle */
+  .core {
+    background: #00d4ff;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  }
+  
+  .core-inner {
+    background: radial-gradient(circle, #00ffff 0%, #00d4ff 100%);
+    box-shadow: none;
+    animation: none;
+  }
+  
+  .core-center {
     display: none;
   }
   
-  .holographic-grid {
-    opacity: 0.3;
+  /* Remove all panel effects */
+  .panel {
+    background: rgba(0, 20, 40, 0.9) !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: 1px solid rgba(0, 212, 255, 0.3) !important;
+  }
+  
+  .weather-widget {
+    background: rgba(0, 212, 255, 0.1) !important;
+    backdrop-filter: none !important;
+  }
+  
+  .stat-item {
+    background: rgba(0, 212, 255, 0.05) !important;
+    border: 1px solid rgba(0, 212, 255, 0.2) !important;
+  }
+  
+  /* Disable all animations */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .control-btn:active {
+    transition: transform 0.1s ease !important;
+  }
+  
+  .core:active {
+    transition: transform 0.1s ease !important;
   }
   
   /* Theme switcher positioning */
