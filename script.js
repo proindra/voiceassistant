@@ -1,11 +1,14 @@
 // Clock functionality
+let clockInterval;
 function updateClock() {
   const now = new Date();
   const timeString = now.toLocaleTimeString('en-US', { hour12: false });
   document.getElementById('clock').textContent = timeString;
 }
 
-setInterval(updateClock, 1000);
+if (!isMobile()) {
+  clockInterval = setInterval(updateClock, 1000);
+}
 updateClock();
 
 // Voice assistant variables
@@ -221,15 +224,13 @@ function stopListening() {
 }
 
 function startVoiceLevel() {
-  const voiceFill = document.getElementById('voiceLevelFill');
   if (isMobile()) {
-    // Simplified animation for mobile
+    // No animations on mobile - just update preview occasionally
     voiceLevelInterval = setInterval(() => {
-      const level = Math.random() * 100;
-      voiceFill.style.width = level + '%';
-      if (Math.random() > 0.8) updateSpeechPreview();
-    }, 500); // Slower update rate
+      if (Math.random() > 0.9) updateSpeechPreview();
+    }, 2000);
   } else {
+    const voiceFill = document.getElementById('voiceLevelFill');
     voiceLevelInterval = setInterval(() => {
       const level = Math.random() * 100;
       voiceFill.style.width = level + '%';
@@ -737,19 +738,20 @@ function isMobile() {
 // Optimize for mobile performance
 function optimizeForMobile() {
   if (isMobile()) {
-    // Reduce update frequency on mobile
-    setInterval(updateBrowserInfo, 30000); // 30 seconds for better performance
+    // Minimal updates on mobile
+    updateBrowserInfo();
+    setTimeout(() => updateBrowserInfo(), 60000); // Only once per minute
     
-    // Disable auto theme switching on mobile to save battery
+    // Disable ALL animations and intervals
     stopAutoThemeSwitch();
-    
-    // Add touch event listeners
-    addTouchEventListeners();
-    
-    // Disable voice level animation on mobile
     clearInterval(voiceLevelInterval);
     
-    // Optimize animations
+    // Add minimal touch events
+    addTouchEventListeners();
+    
+    // Disable clock updates to save CPU
+    clearInterval(clockInterval);
+    
     document.body.classList.add('mobile-optimized');
   } else {
     setInterval(updateBrowserInfo, 5000);

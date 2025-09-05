@@ -1801,16 +1801,10 @@ body.light-theme .orbit::before {
     padding: 6px;
   }
   
-  /* Remove ALL heavy elements on mobile */
-  .orbit, .particles, .holo-overlay, .scan-lines, .holographic-grid {
-    display: none !important;
-  }
-  
-  .core-rings, .data-stream, .holo-indicator, .energy-field {
-    display: none !important;
-  }
-  
-  .waveform {
+  /* Remove ALL heavy elements */
+  .orbit, .particles, .holo-overlay, .scan-lines, .holographic-grid,
+  .core-rings, .data-stream, .holo-indicator, .energy-field, .waveform,
+  .voice-bars, .voice-level {
     display: none !important;
   }
   
@@ -1818,53 +1812,50 @@ body.light-theme .orbit::before {
     display: none !important;
   }
   
-  /* Simplify core to basic circle */
+  /* Ultra simple core */
   .core {
-    background: #00d4ff;
-    border: 2px solid #00ffff;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    background: #00d4ff !important;
+    border: 1px solid #00ffff !important;
+    box-shadow: none !important;
+    will-change: transform;
+    transform: translate3d(0,0,0);
   }
   
   .core-inner {
-    background: radial-gradient(circle, #00ffff 0%, #00d4ff 100%);
-    box-shadow: none;
-    animation: none;
+    background: #00d4ff !important;
+    box-shadow: none !important;
   }
   
-  .core-center {
-    display: none;
-  }
-  
-  /* Remove all panel effects */
+  /* Flat panels */
   .panel {
-    background: rgba(0, 20, 40, 0.9) !important;
+    background: #001122 !important;
     backdrop-filter: none !important;
     box-shadow: none !important;
-    border: 1px solid rgba(0, 212, 255, 0.3) !important;
+    border: 1px solid #00d4ff !important;
   }
   
-  .weather-widget {
-    background: rgba(0, 212, 255, 0.1) !important;
+  .weather-widget, .stat-item {
+    background: #002244 !important;
     backdrop-filter: none !important;
+    box-shadow: none !important;
   }
   
-  .stat-item {
-    background: rgba(0, 212, 255, 0.05) !important;
-    border: 1px solid rgba(0, 212, 255, 0.2) !important;
-  }
-  
-  /* Disable all animations */
-  * {
+  /* Kill ALL animations and transitions */
+  *, *::before, *::after {
     animation: none !important;
     transition: none !important;
+    transform: none !important;
   }
   
-  .control-btn:active {
-    transition: transform 0.1s ease !important;
+  /* Only allow touch feedback */
+  .control-btn:active, .core:active {
+    transform: scale(0.95) !important;
   }
   
-  .core:active {
-    transition: transform 0.1s ease !important;
+  /* Hardware acceleration for smooth scrolling */
+  body {
+    -webkit-overflow-scrolling: touch;
+    transform: translate3d(0,0,0);
   }
   
   /* Theme switcher positioning */
