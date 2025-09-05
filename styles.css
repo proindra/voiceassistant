@@ -1602,7 +1602,7 @@ body.light-theme .orbit::before {
   visibility: hidden;
 }
 
-@media (max-width: 767px) and (pointer: coarse) {
+@media (max-width: 767px), (pointer: coarse) {
   /* Hide everything on mobile */
   body > *:not(.mobile-block) {
     display: none !important;
@@ -1620,6 +1620,27 @@ body.light-theme .orbit::before {
     text-align: center;
     padding: 20px;
   }
+}
+
+/* Additional mobile detection via user agent */
+.mobile-detected {
+  display: none !important;
+}
+
+.mobile-detected .mobile-block {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #000510 0%, #001122 50%, #000510 100%);
+  color: #00ffff;
+  font-family: 'Orbitron', monospace;
+  text-align: center;
+  padding: 20px;
+}
+
+.mobile-detected > *:not(.mobile-block) {
+  display: none !important;
   
   .mobile-message {
     max-width: 400px;

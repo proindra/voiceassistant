@@ -722,8 +722,25 @@ document.addEventListener('click', function(e) {
 
 
 
+// Mobile detection function
+function detectMobile() {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i;
+  
+  if (mobileRegex.test(userAgent) || window.innerWidth <= 767 || 'ontouchstart' in window) {
+    document.body.classList.add('mobile-detected');
+    return true;
+  }
+  return false;
+}
+
 // Initialize application
 function init() {
+  // Check for mobile first
+  if (detectMobile()) {
+    return; // Stop initialization for mobile devices
+  }
+  
   // Start live monitoring
   updateBrowserInfo();
   setInterval(updateBrowserInfo, 5000);
