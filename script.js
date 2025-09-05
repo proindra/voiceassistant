@@ -204,6 +204,8 @@ function toggleListening() {
     statusText.textContent = t.listening;
     startVoiceLevel();
     startSpeechRecognition();
+    // Play JARVIS audio when starting to listen
+    playJarvisAudio();
   } else {
     core.classList.remove('listening');
     statusText.textContent = t.status;
@@ -775,5 +777,84 @@ function init() {
   startAutoThemeSwitch();
 }
 
-// Start the application when DOM is loaded
-document.addEventListener('DOMContentLoaded', init);
+// Audio control handlers
+function setupAudioControls() {
+  const audioToggle = document.getElementById('audioToggle');
+  const volumeSlider = document.getElementById('volumeSlider');
+  
+  if (audioToggle) {
+    audioToggle.addEventListener('click', () => {
+      if (window.hudSoundSystem) {
+        const isEnabled = window.hudSoundSystem.toggle();
+        audioToggle.classList.toggle('disabled', !isEnabled);
+        audioToggle.textContent = isEnabled ? '🔊' : '🔇';
+      }
+    });
+  }
+  
+  if (volumeSlider) {
+    volumeSlider.addEventListener('input', (e) => {
+      if (window.hudSoundSystem) {
+        const volume = e.target.value / 100;
+        window.hudSoundSystem.setVolume(volume);
+      }
+    });
+  }
+}
+
+// Play JARVIS audio on first user interaction
+function playJarvisAudio() {
+  const audio = document.getElementById('jarvisAudio');
+  if (audio) {
+    console.log('Attempting to play JARVIS audio...');
+    console.log('Audio src:', audio.src);
+    console.log('Audio readyState:', audio.readyState);
+    
+    audio.volume = 0.7;
+    
+    // Check if audio is loaded
+    if (audio.readyState >= 2) {
+      audio.play().then(() => {
+        console.log('JARVIS audio playing successfully');
+      }).catch(e => {
+        console.error('Audio play failed:', e);
+        console.log('Trying to load and play again...');
+        audio.load();
+        setTimeout(() => {
+          audio.play().catch(err => console.error('Second attempt failed:', err));
+        }, 500);
+      });
+    } else {
+      console.log('Audio not ready, loading first...');
+      audio.load();
+      audio.addEventListener('canplay', () => {
+        audio.play().then(() => {
+          console.log('JARVIS audio playing after load');
+        }).catch(e => {
+          console.error('Audio play failed after load:', e);
+        });
+      }, { once: true });
+    }
+  } else {
+    console.error('JARVIS audio element not found');
+  }
+}
+
+// Toggle audio play/stop
+function toggleAudio() {
+  const audio = document.getElementById('jarvisAudio');
+  const btn = document.getElementById('audioBtn');
+  
+  if (audio.paused) {
+    audio.play();
+    btn.textContent = '🔇';
+  } else {
+    audio.pause();
+    audio.currentTime = 0;
+    btn.textContent = '🔊';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+});
