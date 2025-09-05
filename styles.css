@@ -1598,7 +1598,7 @@ body.light-theme .orbit::before {
   display: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767px), (pointer: coarse) {
   /* Hide everything on mobile */
   body > *:not(.mobile-block) {
     display: none !important;
