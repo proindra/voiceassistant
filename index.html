@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARIA - Voice Assistant</title>
+  <title>JARVIS - Voice Assistant</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -55,6 +55,16 @@
     </div>
   </div>
 
+  <!-- JARVIS Holographic Grid -->
+  <div class="holographic-grid"></div>
+  
+  <!-- Scanning Lines -->
+  <div class="scan-lines">
+    <div class="scan-line" style="animation-delay: 0s;"></div>
+    <div class="scan-line" style="animation-delay: 2s;"></div>
+    <div class="scan-line" style="animation-delay: 4s;"></div>
+  </div>
+  
   <!-- Particle Effects -->
   <div class="particles">
     <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
@@ -67,34 +77,68 @@
     <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
     <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
   </div>
+  
+  <!-- Holographic Overlays -->
+  <div class="holo-overlay holo-1"></div>
+  <div class="holo-overlay holo-2"></div>
+  <div class="holo-overlay holo-3"></div>
 
   <!-- Center Core -->
   <div class="center">
-    <div class="assistant-name">ARIA</div>
+    <div class="assistant-name">JARVIS</div>
     <div class="status-text">Voice Assistant Ready</div>
     
     <div class="core-container">
-      <div class="core" id="voiceCore" onclick="toggleListening()">
-        <div class="waveform">
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
+      <!-- JARVIS Core with Advanced Elements -->
+      <div class="jarvis-core-wrapper">
+        <div class="core-rings">
+          <div class="core-ring ring-1"></div>
+          <div class="core-ring ring-2"></div>
+          <div class="core-ring ring-3"></div>
         </div>
-        <div class="voice-level">
-          <div class="voice-level-fill" id="voiceLevelFill"></div>
-          <div class="voice-level-text">Voice Level</div>
+        
+        <div class="core" id="voiceCore" onclick="toggleListening()">
+          <div class="core-inner">
+            <div class="core-center"></div>
+            <div class="energy-field"></div>
+          </div>
+          
+          <div class="waveform">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+          
+          <div class="voice-level">
+            <div class="voice-level-fill" id="voiceLevelFill"></div>
+            <div class="voice-level-text">Voice Level</div>
+          </div>
         </div>
+        
+        <!-- Holographic Data Streams -->
+        <div class="data-stream stream-1"></div>
+        <div class="data-stream stream-2"></div>
+        <div class="data-stream stream-3"></div>
+        <div class="data-stream stream-4"></div>
       </div>
-      <div class="orbit"></div>
-      <div class="orbit"></div>
-      <div class="orbit"></div>
-      <div class="orbit"></div>
-      <div class="orbit"></div>
+      
+      <!-- Advanced Orbits -->
+      <div class="orbit orbit-1"></div>
+      <div class="orbit orbit-2"></div>
+      <div class="orbit orbit-3"></div>
+      <div class="orbit orbit-4"></div>
+      <div class="orbit orbit-5"></div>
+      
+      <!-- Holographic Indicators -->
+      <div class="holo-indicator indicator-1"></div>
+      <div class="holo-indicator indicator-2"></div>
+      <div class="holo-indicator indicator-3"></div>
+      <div class="holo-indicator indicator-4"></div>
     </div>
     
     <div class="voice-bars">
@@ -123,11 +167,18 @@
           <div class="language-option" onclick="setLanguage('en')">🇺🇸 English</div>
           <div class="language-option" onclick="setLanguage('hi')">🇮🇳 हिंदी</div>
           <div class="language-option" onclick="setLanguage('kn')">🇮🇳 ಕನ್ನಡ</div>
+          <div class="language-option" onclick="setLanguage('hinglish')">🇮🇳 Hinglish</div>
+          <div class="language-option" onclick="setLanguage('kanglish')">🇮🇳 Kanglish</div>
         </div>
       </div>
       <button class="control-btn" onclick="startListening()">Listen</button>
       <button class="control-btn" onclick="stopListening()">Stop</button>
       <button class="control-btn" onclick="showShortcuts()">Shortcuts</button>
+    </div>
+    
+    <div class="speech-input-container">
+      <textarea id="speechInput" placeholder="Speech will appear here..." readonly></textarea>
+      <button class="clear-btn" onclick="clearSpeechInput()">Clear</button>
     </div>
   </div>
 

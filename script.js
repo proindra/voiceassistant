@@ -12,11 +12,15 @@ updateClock();
 let isListening = false;
 let voiceLevelInterval;
 let currentLanguage = 'en';
+let recognition = null;
+let speechInput = null;
+let recognitionTimeout = null;
+let isRecognitionActive = false;
 
 // Language translations
 const translations = {
   en: {
-    title: 'ARIA',
+    title: 'JARVIS',
     status: 'Voice Assistant Ready',
     listening: 'Listening...',
     deviceInfo: 'Device Info',
@@ -50,7 +54,7 @@ const translations = {
     ]
   },
   hi: {
-    title: 'ARIA',
+    title: 'JARVIS',
     status: 'वॉयस असिस्टेंट तैयार',
     listening: 'सुन रहा है...',
     deviceInfo: 'डिवाइस जानकारी',
@@ -84,7 +88,7 @@ const translations = {
     ]
   },
   kn: {
-    title: 'ARIA',
+    title: 'JARVIS',
     status: 'ಧ್ವನಿ ಸಹಾಯಕ ಸಿದ್ಧ',
     listening: 'ಕೇಳುತ್ತಿದೆ...',
     deviceInfo: 'ಸಾಧನ ಮಾಹಿತಿ',
@@ -116,6 +120,74 @@ const translations = {
       '"10 ನಿಮಿಷಗಳ ಟೈಮರ್ ಸೆಟ್ ಮಾಡಿ"',
       '"ಸ್ವಲ್ಪ ಸಂಗೀತ ಪ್ಲೇ ಮಾಡಿ"'
     ]
+  },
+  hinglish: {
+    title: 'JARVIS',
+    status: 'Voice Assistant Ready',
+    listening: 'Sun raha hai...',
+    deviceInfo: 'Device Info',
+    environment: 'Environment',
+    networkInfo: 'Network Info',
+    visualInput: 'Visual Input',
+    platform: 'Platform',
+    cpuCores: 'CPU Cores',
+    language: 'Language',
+    timezone: 'Timezone',
+    screen: 'Screen',
+    roomTemp: 'Room Temp',
+    humidity: 'Humidity',
+    airQuality: 'Air Quality',
+    connection: 'Connection',
+    status: 'Status',
+    userAgent: 'User Agent',
+    cameraDisabled: '📹 Camera Band hai',
+    cameraActive: '📹 Live Feed Chalu hai',
+    cameraAccessDenied: '🚫 Camera Access Nahi mila',
+    clickToEnable: 'Camera on karne ke liye click karo',
+    listen: 'Suno',
+    stop: 'Roko',
+    shortcuts: 'Shortcuts',
+    speechTexts: [
+      '"Hello, aaj main aapki kaise help kar sakta hun?"',
+      '"Weather kaisa hai?"',
+      '"Living room ki light on karo"',
+      '"10 minute ka timer set karo"',
+      '"Kuch music play karo"'
+    ]
+  },
+  kanglish: {
+    title: 'JARVIS',
+    status: 'Voice Assistant Ready',
+    listening: 'Kelthaidhe...',
+    deviceInfo: 'Device Info',
+    environment: 'Environment',
+    networkInfo: 'Network Info',
+    visualInput: 'Visual Input',
+    platform: 'Platform',
+    cpuCores: 'CPU Cores',
+    language: 'Language',
+    timezone: 'Timezone',
+    screen: 'Screen',
+    roomTemp: 'Room Temp',
+    humidity: 'Humidity',
+    airQuality: 'Air Quality',
+    connection: 'Connection',
+    status: 'Status',
+    userAgent: 'User Agent',
+    cameraDisabled: '📹 Camera off aagide',
+    cameraActive: '📹 Live Feed on aagide',
+    cameraAccessDenied: '🚫 Camera access sigalla',
+    clickToEnable: 'Camera on maadakke click maadi',
+    listen: 'Keli',
+    stop: 'Nilsi',
+    shortcuts: 'Shortcuts',
+    speechTexts: [
+      '"Hello, eevattu naanu nimge hege help maadbahudu?"',
+      '"Weather hege ide?"',
+      '"Living room light on maadi"',
+      '"10 minute timer set maadi"',
+      '"Yavudaadru music play maadi"'
+    ]
   }
 };
 
@@ -131,10 +203,12 @@ function toggleListening() {
     core.classList.add('listening');
     statusText.textContent = t.listening;
     startVoiceLevel();
+    startSpeechRecognition();
   } else {
     core.classList.remove('listening');
     statusText.textContent = t.status;
     stopVoiceLevel();
+    stopSpeechRecognition();
   }
 }
 
@@ -189,6 +263,208 @@ function updateSpeechPreview() {
   }
 }
 
+// Speech Recognition Functions
+function initSpeechRecognition() {
+  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    
+    recognition.continuous = false; // Changed to false for better handling
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 1;
+    recognition.lang = getLanguageCode(currentLanguage);
+    
+    console.log('Speech recognition initialized successfully');
+    
+    recognition.onresult = function(event) {
+      console.log('Speech recognition result received');
+      let finalTranscript = '';
+      let interimTranscript = '';
+      
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript + ' ';
+          console.log('Final transcript:', transcript);
+        } else {
+          interimTranscript += transcript;
+          console.log('Interim transcript:', transcript);
+        }
+      }
+      
+      const speechInput = document.getElementById('speechInput');
+      if (speechInput) {
+        if (finalTranscript) {
+          speechInput.value += finalTranscript;
+          speechInput.scrollTop = speechInput.scrollHeight;
+        }
+      }
+      
+      // Update preview with interim results
+      const preview = document.getElementById('speechPreview');
+      if (preview && interimTranscript) {
+        preview.textContent = `"${interimTranscript}..."`;
+      }
+    };
+    
+    recognition.onerror = function(event) {
+      console.log('Speech recognition error:', event.error);
+      isRecognitionActive = false;
+      
+      if (event.error === 'not-allowed') {
+        alert('Microphone access denied. Please allow microphone access and try again.');
+        stopListening();
+      } else if (event.error === 'no-speech') {
+        console.log('No speech detected, will restart...');
+        // Don't stop listening, just restart
+      } else if (event.error === 'audio-capture') {
+        console.log('Audio capture error');
+        alert('Microphone not working. Please check your microphone.');
+        stopListening();
+      } else if (event.error === 'network') {
+        console.log('Network error, will retry...');
+        // Continue listening despite network error
+      } else if (event.error === 'aborted') {
+        console.log('Recognition aborted, restarting...');
+        // This is normal when restarting
+      } else {
+        console.log('Other speech recognition error:', event.error);
+      }
+    };
+    
+    recognition.onstart = function() {
+      console.log('Speech recognition started');
+      isRecognitionActive = true;
+      
+      // Clear any existing timeout
+      if (recognitionTimeout) {
+        clearTimeout(recognitionTimeout);
+      }
+    };
+    
+    recognition.onend = function() {
+      console.log('Speech recognition ended');
+      isRecognitionActive = false;
+      
+      if (isListening) {
+        // Restart immediately for continuous listening
+        recognitionTimeout = setTimeout(() => {
+          if (isListening && !isRecognitionActive) {
+            try {
+              recognition.start();
+            } catch (e) {
+              console.log('Error restarting recognition:', e);
+              // Try again after a longer delay
+              setTimeout(() => {
+                if (isListening) {
+                  try {
+                    recognition.start();
+                  } catch (e2) {
+                    console.log('Second restart attempt failed:', e2);
+                  }
+                }
+              }, 1000);
+            }
+          }
+        }, 50); // Very short delay
+      }
+    };
+  } else {
+    console.log('Speech recognition not supported');
+  }
+}
+
+function startSpeechRecognition() {
+  if (recognition && !isRecognitionActive) {
+    try {
+      const langCode = getLanguageCode(currentLanguage);
+      recognition.lang = langCode;
+      console.log(`Starting speech recognition with language: ${langCode}`);
+      recognition.start();
+    } catch (error) {
+      console.log('Error starting speech recognition:', error);
+      // Try again after a short delay
+      setTimeout(() => {
+        if (isListening && !isRecognitionActive) {
+          try {
+            recognition.start();
+          } catch (e) {
+            console.log('Retry failed:', e);
+            alert('Speech recognition failed to start. Please try again.');
+          }
+        }
+      }, 500);
+    }
+  } else if (!recognition) {
+    console.log('Speech recognition not available');
+    alert('Speech recognition is not supported in this browser. Please use Chrome, Edge, or Safari.');
+  }
+}
+
+function stopSpeechRecognition() {
+  if (recognition && isRecognitionActive) {
+    console.log('Stopping speech recognition');
+    isRecognitionActive = false;
+    recognition.stop();
+  }
+  
+  // Clear any pending restart timeout
+  if (recognitionTimeout) {
+    clearTimeout(recognitionTimeout);
+    recognitionTimeout = null;
+  }
+}
+
+function getLanguageCode(lang) {
+  const langCodes = {
+    'en': 'en-US',
+    'hi': 'hi-IN',
+    'kn': 'kn-IN',
+    'hinglish': 'hi-IN', // Primary language for Hinglish
+    'kanglish': 'kn-IN'  // Primary language for Kanglish
+  };
+  return langCodes[lang] || 'en-US';
+}
+
+// Enhanced language support with fallbacks and mixed languages
+function getSupportedLanguages() {
+  return {
+    'en': ['en-US', 'en-GB', 'en-AU', 'en-CA'],
+    'hi': ['hi-IN', 'hi'],
+    'kn': ['kn-IN', 'kn'],
+    'hinglish': ['hi-IN', 'en-IN', 'en-US'], // Hindi-English mix
+    'kanglish': ['kn-IN', 'en-IN', 'en-US']  // Kannada-English mix
+  };
+}
+
+function getBestLanguageCode(lang) {
+  const supportedLangs = getSupportedLanguages();
+  const langOptions = supportedLangs[lang] || supportedLangs['en'];
+  
+  // Try each language option to see what's supported
+  if (recognition) {
+    for (let langCode of langOptions) {
+      try {
+        recognition.lang = langCode;
+        return langCode;
+      } catch (e) {
+        continue;
+      }
+    }
+  }
+  
+  return langOptions[0]; // Return first option as fallback
+}
+
+function clearSpeechInput() {
+  const speechInput = document.getElementById('speechInput');
+  if (speechInput) {
+    speechInput.value = '';
+    console.log('Speech input cleared');
+  }
+}
+
 // Shortcuts functionality
 function showShortcuts() {
   document.getElementById('shortcutsOverlay').style.display = 'flex';
@@ -199,8 +475,24 @@ function hideShortcuts() {
 }
 
 // Theme functionality
+let autoThemeInterval;
+
 function toggleTheme() {
   document.body.classList.toggle('light-theme');
+}
+
+// Auto theme switching every 15 seconds
+function startAutoThemeSwitch() {
+  autoThemeInterval = setInterval(() => {
+    toggleTheme();
+  }, 15000); // 15 seconds
+}
+
+function stopAutoThemeSwitch() {
+  if (autoThemeInterval) {
+    clearInterval(autoThemeInterval);
+    autoThemeInterval = null;
+  }
 }
 
 // Keyboard shortcuts
@@ -336,6 +628,13 @@ function setLanguage(lang) {
   updateLanguageDisplay();
   updateUILanguage();
   
+  // Update speech recognition language if it's initialized
+  if (recognition) {
+    const langCode = getBestLanguageCode(currentLanguage);
+    recognition.lang = langCode;
+    console.log(`Speech recognition language updated to: ${langCode}`);
+  }
+  
   // Close menu
   const menu = document.getElementById('languageMenuBtn');
   const button = document.querySelector('.language-btn');
@@ -354,8 +653,14 @@ function setLanguage(lang) {
 }
 
 function updateLanguageDisplay() {
-  const langCodes = { en: 'EN', hi: 'हि', kn: 'ಕನ್' };
-  document.getElementById('currentLangBtn').textContent = langCodes[currentLanguage];
+  const langCodes = { 
+    en: 'EN', 
+    hi: 'हि', 
+    kn: 'ಕನ್',
+    hinglish: 'HI+',
+    kanglish: 'KN+'
+  };
+  document.getElementById('currentLangBtn').textContent = langCodes[currentLanguage] || 'EN';
 }
 
 function updateUILanguage() {
@@ -429,9 +734,15 @@ function init() {
   document.getElementById('cameraPlaceholder').addEventListener('click', enableCamera);
   document.getElementById('cameraFeed').addEventListener('click', disableCamera);
   
+  // Initialize speech recognition
+  initSpeechRecognition();
+  
   // Initialize language
   updateLanguageDisplay();
   updateUILanguage();
+  
+  // Start automatic theme switching
+  startAutoThemeSwitch();
 }
 
 // Start the application when DOM is loaded
