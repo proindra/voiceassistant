@@ -1595,14 +1595,10 @@ body.light-theme .orbit::before {
 
 /* Mobile Block Message */
 .mobile-block {
-  display: none !important;
-  position: absolute;
-  top: -9999px;
-  left: -9999px;
-  visibility: hidden;
+  display: none;
 }
 
-@media (max-width: 767px), (pointer: coarse) {
+@media (max-width: 767px) {
   /* Hide everything on mobile */
   body > *:not(.mobile-block) {
     display: none !important;
@@ -1619,28 +1615,13 @@ body.light-theme .orbit::before {
     font-family: 'Orbitron', monospace;
     text-align: center;
     padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
   }
-}
-
-/* Additional mobile detection via user agent */
-.mobile-detected {
-  display: none !important;
-}
-
-.mobile-detected .mobile-block {
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #000510 0%, #001122 50%, #000510 100%);
-  color: #00ffff;
-  font-family: 'Orbitron', monospace;
-  text-align: center;
-  padding: 20px;
-}
-
-.mobile-detected > *:not(.mobile-block) {
-  display: none !important;
   
   .mobile-message {
     max-width: 400px;
