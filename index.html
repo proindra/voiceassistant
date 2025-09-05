@@ -197,11 +197,6 @@
     </div>
   </div>
 
-  <!-- Theme Switcher -->
-  <div class="theme-switcher">
-    <div class="theme-toggle" onclick="toggleTheme()"></div>
-  </div>
-
   <!-- Right Panel -->
   <div class="panel right-panel">
     <div class="clock" id="clock">12:22:43</div>
@@ -242,6 +237,14 @@
         <video id="cameraFeed" width="280" height="140" autoplay muted style="display: none;"></video>
         <div id="cameraPlaceholder" style="width: 280px; height: 140px; background: linear-gradient(45deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center; color: #00d4ff; font-size: 14px;">Click to Enable Camera</div>
         <div class="video-status" id="videoStatus">📹 Camera Disabled</div>
+      </div>
+    </div>
+    
+    <div class="controls-section">
+      <h3>Controls</h3>
+      <div class="panel-controls">
+        <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme"></div>
+        <div class="fullscreen-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">⛶</div>
       </div>
     </div>
   </div>

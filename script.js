@@ -263,6 +263,17 @@ function updateSpeechPreview() {
   }
 }
 
+// Fullscreen Functions
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(err => {
+      console.log(`Error attempting to enable fullscreen: ${err.message}`);
+    });
+  } else {
+    document.exitFullscreen();
+  }
+}
+
 // Speech Recognition Functions
 function initSpeechRecognition() {
   if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
